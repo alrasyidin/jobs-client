@@ -3,7 +3,7 @@ import { Card, Col, Container, Row } from "react-bootstrap";
 import { Link, useParams } from "react-router-dom";
 import { API } from "../../config/api";
 import { JobsContext } from "../../context/JobsContext";
-import { NavBar } from "../../lib/components/navbar";
+import { NavBar } from "../../lib/components";
 
 export const DetailJob = () => {
   const { selectedJob, setSelectedJob } = useContext(JobsContext);
@@ -12,7 +12,6 @@ export const DetailJob = () => {
     const fetchJobsList = async () => {
       try {
         const { data } = await API.get(`/jobs/${id}`);
-        console.log(data.data);
         setSelectedJob(data.data.job);
       } catch (error) {
         console.log(error);
@@ -21,7 +20,7 @@ export const DetailJob = () => {
     fetchJobsList();
   }, []);
 
-  const companyElement = (
+  const companyElement = selectedJob && (
     <Card>
       <Card.Header>
         <h6>{selectedJob.company}</h6>
@@ -33,7 +32,7 @@ export const DetailJob = () => {
     </Card>
   );
 
-  const howToApplyElement = (
+  const howToApplyElement = selectedJob && (
     <Card className="mt-4">
       <Card.Header>
         <h6>How to apply?</h6>
